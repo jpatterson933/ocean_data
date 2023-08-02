@@ -1,48 +1,57 @@
 require("dotenv").config();
 const axios = require("axios");
 
-async function fetchCity(cityName) {
+function createQuery(city) {
     let baseUrl = "https://api.openweathermap.org/data/2.5/forecast?&q=";
     let apiKey = process.env.OPEN_WEATHER_API_KEY;
+    let query = `${baseUrl}${city}&appid=${apiKey}`;
+    return query;
+};
 
-    let query = baseUrl + cityName + "&appid=" + apiKey;
-
-    try {
-        let response = await axios.get(query);
-
-        console.log(response.data.city.coord.lat);
-
-        if (response.status === 200) {
-            const cityMeridian = {
-                name: response.data.city.name,
-                latitude: response.data.city.coord.lat,
-                longitude: response.data.city.coord.lon,
-                countryCode: response.data.city.country
-            };
-
-            // Create GraphQL query for mutation
-            const mutation = `mutation ($name: String!, $latitude: Float!, $longitude: Float!, $countryCode: String) {
-            createLocation(name: $name, latitude: $latitude, longitude: $longitude, countryCode: $countryCode) {
-                    _id
-                    name
-                    latitude
-                    longitude
-                    countryCode
-                }
-            }`;
-
-            // POST request to GraphQL API
-            await axios.post('http://localhost:3001/graphql', {
-                query: mutation,
-                variables: cityMeridian,
-            });
-        } else {
-            console.error("Please enter a valid city name")
-
+function createLocationMutationQuery() {
+    const graphQLMutation = `mutation ($name: String!, $latitude: Float!, $longitude: Float!, $countryCode: String) {
+    createLocation(name: $name, latitude: $latitude, longitude: $longitude, countryCode: $countryCode) {
+            _id
+            name
+            latitude
+            longitude
+            countryCode
         }
-    } catch (error) {
-        console.error(error)
-    }
-}
+    }`;
+    return graphQLMutation;
+};
 
-fetchCity("Malibu");
+async function responseDataForLocationModel(data) {
+    const cityMeridian = {
+        name: data.city.name,
+        latitude: data.city.coord.lat,
+        longitude: data.city.coord.lon,
+        countryCode: data.city.country
+    };
+    return cityMeridian;
+};
+
+async function postNewLocationModel(mutationQuery, mutationVariables){
+    await axios.post('http://localhost:3001/graphql', {
+        query: mutationQuery,
+        variables: mutationVariables,
+    });
+};
+
+async function getCityDataPostNewLocationModel(cityName) {
+    let query = createQuery(cityName)
+    try {
+        let {status, data} = await axios.get(query);
+        if (status === 200) {
+            const mutationData = await responseDataForLocationModel(data);
+            const mutation = createLocationMutationQuery();
+            await postNewLocationModel(mutation, mutationData);
+        } else {
+            console.error("Please enter a valid city name");
+        };
+    } catch (error) {
+        console.error(error);
+    };
+};
+
+getCityDataPostNewLocationModel("Newport Beach");
