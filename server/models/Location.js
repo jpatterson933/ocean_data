@@ -1,4 +1,4 @@
-const {Schema, model } = reqauire("mongoose");
+const {Schema, model } = require("mongoose");
 
 const locationSchema = new Schema({
     name: {
