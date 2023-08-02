@@ -2,8 +2,15 @@ const { Location } = require("../models");
 
 const resolvers = {
     Query: {
-        location: async () => {
-            return Location.find({})
+        locations: async (parent, { _id} ) => {
+            const params = _id ? { _id } : {};
+            return Location.find(params)
+        }
+    },
+    Mutation: {
+        createLocation: async(parent, args) => {
+            const location = await Location.create(args);
+            return location;
         }
     }
 };

@@ -2,13 +2,17 @@ const typeDefs =   `
     type Location {
         _id: ID!
         name: String!
-        latitude: Int!
-        longitude: Int!
+        latitude: Float!
+        longitude: Float!
         countryCode: String
     }
 
     type Query {
-        location: [Location]
+        locations(_id: String): [Location]
+    }
+
+    type Mutation {
+        createLocation(name: String!, latitude: Float!, longitude: Float!): Location
     }
 `
 
