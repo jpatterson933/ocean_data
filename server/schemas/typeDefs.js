@@ -12,7 +12,7 @@ const typeDefs =   `
     }
 
     type Mutation {
-        createLocation(name: String!, latitude: Float!, longitude: Float!): Location
+        createLocation(name: String!, latitude: Float!, longitude: Float!, countryCode: String): Location
     }
 `
 
