@@ -1,4 +1,11 @@
 const typeDefs =   `
+    type User {
+        _id: ID
+        email: String
+        password: String
+        isVerified: Boolean
+        locations: [Location]!
+    }
     type Location {
         _id: ID!
         name: String!
@@ -9,6 +16,7 @@ const typeDefs =   `
 
     type Query {
         locations(_id: String): [Location]
+        user: User
     }
 
     type Mutation {

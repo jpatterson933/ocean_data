@@ -1,3 +1,3 @@
+const User = require("./User");
 const Location = require("./Location");
-
-module.exports = { Location };
+module.exports = { User, Location };
