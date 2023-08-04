@@ -24,6 +24,7 @@ const resolvers = {
         addUser: async (parent, {email, password}) => {
             const user = await User.create({email, password});
             const token = signToken(user);
+            // use the token returned in the headers of apollo sandbox for testing
             return {token, user};
         },
 

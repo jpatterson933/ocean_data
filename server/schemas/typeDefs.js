@@ -23,6 +23,8 @@ const typeDefs =   `
         user(email: String!): User
         me: User
         users: [User]
+
+        
         locations(_id: String): [Location]
     }
 
@@ -30,6 +32,8 @@ const typeDefs =   `
         addUser(email: String!, password: String!): Auth
         updateUser(email: String!, password: String!): User
         deleteUser: User
+
+
         createLocation(name: String!, latitude: Float!, longitude: Float!, countryCode: String): Location
         fetchCityData(cityName: String!): String
     }
