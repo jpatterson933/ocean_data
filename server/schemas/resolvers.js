@@ -1,5 +1,5 @@
 const { Location, User } = require("../models");
-const { getCityDataPostNewLocationModel } = require("../services/fetchCityData");
+const { getCityDataCreateNewLocationModel } = require("../services/fetchCityData");
 const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
@@ -47,7 +47,7 @@ const resolvers = {
 
         fetchCityData: async (parent, { cityName }) => {
             console.log(cityName, "testing")
-            const cityData = await getCityDataPostNewLocationModel(cityName);
+            const cityData = await getCityDataCreateNewLocationModel(cityName);
             return cityData;
         },
         createLocation: async (parent, args) => {
