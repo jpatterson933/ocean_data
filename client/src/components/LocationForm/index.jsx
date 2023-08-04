@@ -5,22 +5,33 @@ import { FETCH_CITY_DATA } from "../../utils/mutations";
 
 function LocationForm() {
     const [cityName, setCityName] = useState('');
-    const [fetchCityData] = useMutation(FETCH_CITY_DATA);
+    const [fetchCityData, { error }] = useMutation(FETCH_CITY_DATA);
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
+        try {
 
-        await fetchCityData({ variables: { cityName } });
+            event.preventDefault();
+            console.log(event, "event")
 
-        setCityName(''); // reset form input
+            const response = await fetchCityData({ variables: {cityName} });
+            console.log(response.data.fetchCityData, "working???")
+            setCityName(''); // reset form input
+        } catch (err) {
+            console.error(err);
+        }
     };
+
+    const handleInputChange = (event) => {
+        const {name, value} = event.target;
+        setCityName(value)
+    }
 
     return (
         <form onSubmit={handleSubmit}>
             <input
                 type="text"
                 value={cityName}
-                onChange={(event) => setCityName(event.target.value)}
+                onChange={handleInputChange}
                 placeholder="Enter city name"
             />
             <button type="submit">Submit</button>

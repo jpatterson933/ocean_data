@@ -40,6 +40,7 @@ async function postNewLocationModel(mutationQuery, mutationVariables){
 
 async function getCityDataPostNewLocationModel(cityName) {
     let query = createQuery(cityName)
+    console.log(cityName, "CITY NAME??")
     try {
         let {status, data} = await axios.get(query);
         if (status === 200) {
@@ -54,4 +55,4 @@ async function getCityDataPostNewLocationModel(cityName) {
     };
 };
 
-getCityDataPostNewLocationModel("Newport Beach");
+module.exports = {getCityDataPostNewLocationModel};

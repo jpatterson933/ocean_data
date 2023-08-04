@@ -13,6 +13,7 @@ const typeDefs =   `
 
     type Mutation {
         createLocation(name: String!, latitude: Float!, longitude: Float!, countryCode: String): Location
+        fetchCityData(cityName: String!): String
     }
 `
 
