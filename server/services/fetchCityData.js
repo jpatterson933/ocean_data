@@ -8,7 +8,7 @@ function createQuery(city) {
     return query;
 };
 
-function createLocationMutationQuery() {
+function mutationQueryForLocationModel() {
     const graphQLMutation = `mutation ($name: String!, $latitude: Float!, $longitude: Float!, $countryCode: String) {
     createLocation(name: $name, latitude: $latitude, longitude: $longitude, countryCode: $countryCode) {
             _id
@@ -31,22 +31,21 @@ async function responseDataForLocationModel(data) {
     return cityMeridian;
 };
 
-async function postNewLocationModel(mutationQuery, mutationVariables){
+async function createNewLocationModel(mutationQuery, mutationVariables){
     await axios.post('http://localhost:3001/graphql', {
         query: mutationQuery,
         variables: mutationVariables,
     });
 };
 
-async function getCityDataPostNewLocationModel(cityName) {
+async function getCityDataCreateNewLocationModel(cityName) {
     let query = createQuery(cityName)
-    console.log(cityName, "CITY NAME??")
     try {
         let {status, data} = await axios.get(query);
         if (status === 200) {
             const mutationData = await responseDataForLocationModel(data);
-            const mutation = createLocationMutationQuery();
-            await postNewLocationModel(mutation, mutationData);
+            const mutationQuery = mutationQueryForLocationModel();
+            await createNewLocationModel(mutationQuery, mutationData);
         } else {
             console.error("Please enter a valid city name");
         };
@@ -55,4 +54,4 @@ async function getCityDataPostNewLocationModel(cityName) {
     };
 };
 
-module.exports = {getCityDataPostNewLocationModel};
+module.exports = {getCityDataCreateNewLocationModel};
