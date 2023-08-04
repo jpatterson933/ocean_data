@@ -1,10 +1,19 @@
 const { Location, User } = require("../models");
 const { getCityDataPostNewLocationModel } = require("../services/fetchCityData");
+const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
     Query: {
-        user: async () => {
-            return User.find().populate("locations")
+        user: async (parent, { email }) => {
+            return User.findOne({ email }).populate("locations")
+        },
+        me: async(parent, args, context) => {
+            if(context.user) {
+                return User.findOne({_id: context.user._id}).populate("locations")
+            }
+        },
+        users: async(parent, args) => {
+            return User.find({}).populate("locations");
         },
         locations: async (parent, { _id }) => {
             const params = _id ? { _id } : {};
@@ -12,6 +21,29 @@ const resolvers = {
         }
     },
     Mutation: {
+        addUser: async (parent, {email, password}) => {
+            const user = await User.create({email, password});
+            const token = signToken(user);
+            return {token, user};
+        },
+
+        updateUser: async(parent, args, context) => {
+            if(context.user) {
+                return User.findByIdAndUpdate(context.user._id, args, {new: true});
+            }
+
+            throw AuthenticationError;
+        },
+        deleteUser: async(parent, args, context) => {
+            if(context.user) {
+                return User.findOneAndDelete({ _id: context.user._id })
+            }
+            throw AuthenticationError;
+        },
+
+
+
+
         fetchCityData: async (parent, { cityName }) => {
             console.log(cityName, "testing")
             const cityData = await getCityDataPostNewLocationModel(cityName);
