@@ -5,6 +5,7 @@ import LocationForm from "./components/LocationForm";
 
 import { setContext } from "@apollo/client/link/context";
 import Signup from "./pages/Signup";
+import NavigationBar from "./components/Nav";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -28,6 +29,7 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
+      <NavigationBar />
       <Signup />
       <h1>Ocean Data</h1>
       <LocationForm />
