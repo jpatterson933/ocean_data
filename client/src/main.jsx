@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import NoExistingPage from "./pages/NoExistingPage";
 import Home from "./pages/Home";
 import ProtectedRoute from "./components/ProtectedRoute";
+import GuestRoute from "./components/GuestRoute";
 // testing component
 import TestingComponent from "./components/test";
 
@@ -25,10 +26,10 @@ const router = createBrowserRouter([
         element: <Home />
       }, {
         path: "/login",
-        element: <Login />
+        element: <GuestRoute><Login /></GuestRoute>
       }, {
         path: "/signup",
-        element: <Signup />
+        element: <GuestRoute><Signup /></GuestRoute>
       }, {
         path: "/profile",
         element: <ProtectedRoute><TestingComponent/></ProtectedRoute>
