@@ -8,10 +8,13 @@ const emailSecret = "supersupersecretstuffhere9"
 const expiration = "2h";
 
 const transporter = nodemailer.createTransport({
-    service: "Gmail",
+    service: "Zoho",
+    host: "smtp.zoho.com",
+    secure: true,
+    port: 465,
     auth: {
-        user: process.env.GMAIL_USERNAME,
-        pass: process.env.GMAIL_PASSWORD
+        user: process.env.ZOHO_USERNAME,
+        pass: process.env.ZOHO_PASSWORD
     }
 })
 
@@ -61,6 +64,7 @@ module.exports = {
         const url = `http://localhost:3000/confirmation/${emailToken}`
 
         await transporter.sendMail({
+            from: process.env.ZOHO_USERNAME,
             to: email,
             subject: "Please Verify Email For Ocean Data",
             html: `Please click this link to confirm your email for Ocean Data <a href=${url}>${url}</a>`
