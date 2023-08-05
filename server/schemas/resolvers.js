@@ -1,6 +1,6 @@
 const { Location, User } = require("../models");
 const { getCityDataCreateNewLocationModel } = require("../services/fetchCityData");
-const { signToken, verifyUser, AuthenticationError } = require('../utils/auth');
+const { signToken, verifyUser, getUserFromEmailToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
     Query: {
@@ -27,6 +27,27 @@ const resolvers = {
             await verifyUser(user)
             // use the token returned in the headers of apollo sandbox for testing
             return {token, user};
+        },
+        verifyEmail: async (parent, {token}) => {
+            try {
+                const userId = getUserFromEmailToken(token);
+                if(!userId){
+                    throw new Error("Invalid or expired token!");
+                }
+
+                const user = await User.findById(userId);
+
+                if(!user) {
+                    throw new Error("User not found!!");
+                }
+
+                user.isVerified = true;
+                await user.save();
+
+                return user;
+            } catch(error){
+                console.error(error);
+            }
         },
 
         updateUser: async(parent, args, context) => {

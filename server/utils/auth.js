@@ -61,6 +61,8 @@ module.exports = {
             }
         )
 
+        console.log(emailToken)
+
         const url = `http://localhost:3000/confirmation/${emailToken}`
 
         await transporter.sendMail({
@@ -69,5 +71,15 @@ module.exports = {
             subject: "Please Verify Email For Ocean Data",
             html: `Please click this link to confirm your email for Ocean Data <a href=${url}>${url}</a>`
         })
+    },
+    getUserFromEmailToken: function (token) {
+        try {
+            const {user: userId} = jwt.verify(token, emailSecret);
+            console.log(userId, "userId")
+            return userId;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
     }
 };
