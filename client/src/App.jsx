@@ -1,10 +1,8 @@
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from "@apollo/client";
-
+import { Outlet } from "react-router-dom";
 import "./App.css";
-import LocationForm from "./components/LocationForm";
 
 import { setContext } from "@apollo/client/link/context";
-import Signup from "./pages/Signup";
 import NavigationBar from "./components/Nav";
 
 const httpLink = createHttpLink({
@@ -30,10 +28,8 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <NavigationBar />
-      <Signup />
       <h1>Ocean Data</h1>
-      <LocationForm />
-
+      <Outlet />
     </ApolloProvider>
   )
 }
