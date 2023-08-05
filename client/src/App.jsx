@@ -28,7 +28,6 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <NavigationBar />
-      <h1>Ocean Data</h1>
       <Outlet />
     </ApolloProvider>
   )

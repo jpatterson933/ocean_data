@@ -1,6 +1,6 @@
 function Home(){
     return (
-        <h1>This will be a home page</h1>
+        <h1>Ocean Data</h1>
     )
 }
 
