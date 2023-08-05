@@ -42,6 +42,24 @@ const resolvers = {
             throw AuthenticationError;
         },
 
+        loginUser: async(parent, {email, password}) => {
+            const user = await User.findOne({email});
+
+            if(!user) {
+                throw AuthenticationError;
+            };
+            const correctPassword = await user.isCorrectPassword(password)
+
+            if(!correctPassword){
+                throw AuthenticationError;
+            };
+
+            const token = signToken(user);
+
+            return { token, user}
+
+        },
+
 
 
 

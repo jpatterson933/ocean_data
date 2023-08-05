@@ -33,6 +33,8 @@ const typeDefs =   `
         updateUser(email: String!, password: String!): User
         deleteUser: User
 
+        loginUser(email: String!, password: String!): Auth
+
 
         createLocation(name: String!, latitude: Float!, longitude: Float!, countryCode: String): Location
         fetchCityData(cityName: String!): String
