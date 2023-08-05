@@ -1,20 +1,38 @@
 import Auth from "../../utils/auth";
-import Nav from "react-bootstrap/Nav";
+import ListGroup from "react-bootstrap/ListGroup";
 
 import { Link } from "react-router-dom";
 
 function NavigationBar() {
-    if(Auth.loggedIn()) {
+    if (Auth.loggedIn()) {
         return (
-            <Nav variant="tabs" defaultActiveKey="/home">
-                <Nav.Item>
+            <ListGroup horizontal>
+                <ListGroup.Item>
                     <Link to="/">Home</Link>
-                </Nav.Item>
-            </Nav>
+
+                </ListGroup.Item>
+                <ListGroup.Item>
+                    <a href="/" onClick={(() => Auth.logout())}>
+                        Logout
+                    </a>
+                </ListGroup.Item>
+            </ListGroup>
+        )
+    } else {
+        return (
+            <ListGroup horizontal>
+            <ListGroup.Item>
+                <Link to="/login">Login</Link>
+
+            </ListGroup.Item>
+            <ListGroup.Item>
+                <Link to="/signup">Signup</Link>
+            </ListGroup.Item>
+        </ListGroup>
         )
     }
 
-    return(
+    return (
         <>
         </>
     )
