@@ -17,6 +17,10 @@ const GuestRoute = ({ children }) => {
         return <Navigate to="/verify_email" />;
     };
 
+    if(location.pathname !=="/login" && location.path !== "/signup" && !loggedIn){
+        return <Navigate to="/login" />
+    }
+
     return children
 
 };

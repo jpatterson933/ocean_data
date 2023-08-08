@@ -25,16 +25,16 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <GuestRoute><Home /></GuestRoute>
+        element: <ProtectedRoute><Home /></ProtectedRoute>
       }, {
         path: "/login",
-        element: <GuestRoute><Login /></GuestRoute>
+        element: <ProtectedRoute><Login /></ProtectedRoute>
       }, {
         path: "/signup",
         element: <VerifyEmailRoute><Signup /></VerifyEmailRoute>
       }, {
         path: "/verify_email",
-        element: <GuestRoute><EmailVerification /></GuestRoute>
+        element: <ProtectedRoute><EmailVerification /></ProtectedRoute>
       }, {
         path: "/profile",
         element: <ProtectedRoute><TestingComponent /></ProtectedRoute>
