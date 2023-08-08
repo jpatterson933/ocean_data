@@ -20,9 +20,8 @@ function Signup() {
             },
         });
         const token = mutationResponse.data.addUser.token;
-        Auth.login(token);
+        Auth.signUp(token);
 
-        navigate("/verify_email");
 
     }
 
