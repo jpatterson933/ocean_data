@@ -15,6 +15,7 @@ import GuestRoute from "./components/GuestRoute";
 import EmailVerification from "./components/EmailVerification";
 // testing component
 import TestingComponent from "./components/test";
+import VerifyEmailRoute from "./components/VerifyEmailRoute";
 
 const router = createBrowserRouter([
   {
@@ -30,13 +31,13 @@ const router = createBrowserRouter([
         element: <GuestRoute><Login /></GuestRoute>
       }, {
         path: "/signup",
-        element: <GuestRoute><Signup /></GuestRoute>
+        element: <Signup />
       }, {
-        path: "/confirmation/:token",
+        path: "/verify_email",
         element: <EmailVerification />
       }, {
         path: "/profile",
-        element: <ProtectedRoute><TestingComponent/></ProtectedRoute>
+        element: <ProtectedRoute><TestingComponent /></ProtectedRoute>
       }
     ]
   }

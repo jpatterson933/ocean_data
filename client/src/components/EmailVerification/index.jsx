@@ -1,20 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { useParams, Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import { VERIFY_USER } from "../../utils/mutations";
 
 const EmailVerification = () => {
-    const { token } = useParams();
-    
 
-
-    //define mutation
+    const navigate = useNavigate();
+    const [confirmationNumber, setConfirmationNumber] = useState("");
     const [verifyUser, { data, loading, error }] = useMutation(VERIFY_USER);
+    const token = localStorage.getItem("id_token");
 
-    useEffect(() => {
-        verifyUser({ variables: { token } });
-    }, [token, verifyUser]);
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await verifyUser({
+                variables: {
+                    token: token,
+                    confirmationNumber: parseInt(confirmationNumber)
+                },
+            })
+
+            if (response.data.verifyUser.isVerified) {
+                navigate("/");
+            }
+
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const handleChange = (event) => {
+        setConfirmationNumber(event.target.value);
+    }
+
+
 
     if (loading) {
         return <h1>Verifying Email...</h1>
@@ -24,16 +45,23 @@ const EmailVerification = () => {
         return <h1>There was an errror verifying your email. Please try again</h1>
     }
 
-    if (data?.verifyEmail) {
-        return (
-            <>
-                <h1>Email verification successful! You are now being redirected!</h1>
-                <Navigate to="/" />
-            </>
-        )
-    }
 
-    return null;
+    return (
+        <form onSubmit={handleSubmit}>
+            <label htmlFor="confirmationNumber">Enter the confirmation number sent to your email</label>
+            <input
+                type="number"
+                id="confirmationNumber"
+                value={confirmationNumber}
+                onChange={handleChange}
+            />
+            <button type="submit">Verify Email</button>
+
+        </form>
+    )
+
+
+
 };
 
 export default EmailVerification;

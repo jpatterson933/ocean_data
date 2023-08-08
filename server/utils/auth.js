@@ -73,7 +73,7 @@ module.exports = {
     },
     getUserFromEmailToken: function (token) {
         try {
-            const { user: userId } = jwt.verify(token, emailSecret);
+            const { _id: userId } = jwt.verify(token, secret, { maxAge: expiration });
             // console.log(userId, "userId")
             return userId;
         } catch (error) {

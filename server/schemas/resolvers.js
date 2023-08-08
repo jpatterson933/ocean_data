@@ -28,9 +28,25 @@ const resolvers = {
             // use the token returned in the headers of apollo sandbox for testing
             return {token, user};
         },
-        verifyEmail: async (parent, {token}) => {
+        verifyEmail: async (parent, {confirmationNumber}, context) => {
             try {
-                console.log("verify email mutation")
+
+                const authHeader = context.req.headers.authorization;
+                console.log(authHeader);
+
+                if(!authHeader){
+                    throw new Error ("Authentication token must be provided");
+
+                }
+
+                const token = authHeader.split("Bearer ")[1];
+                if(!token){
+                    throw new Error("Authenticaiton token must be provided")
+                }
+
+
+
+
                 const userId = getUserFromEmailToken(token);
                 if(!userId){
                     throw new Error("Invalid or expired token!");
@@ -40,6 +56,10 @@ const resolvers = {
 
                 if(!user) {
                     throw new Error("User not found!!");
+                }
+
+                if(user.verificationNumber !== confirmationNumber){
+                    throw new Error("Verification number does not match!");
                 }
 
                 user.isVerified = true;

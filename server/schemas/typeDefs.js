@@ -31,7 +31,7 @@ const typeDefs =   `
 
     type Mutation {
         addUser(email: String!, password: String!): Auth
-        verifyEmail(token: String!): User
+        verifyEmail(confirmationNumber: Int!): User
 
         updateUser(email: String!, password: String!): User
         deleteUser: User

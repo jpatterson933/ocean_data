@@ -18,8 +18,8 @@ export const ADD_USER = gql`
 `
 
 export const VERIFY_USER = gql`
-    mutation verifyUser($token: String!) {
-        verifyEmail(token: $token) {
+    mutation verifyUser($confirmationNumber: Int!) {
+        verifyEmail(confirmationNumber: $confirmationNumber) {
             _id
             email
             isVerified
