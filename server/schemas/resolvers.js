@@ -18,11 +18,26 @@ const resolvers = {
         locations: async (parent, { _id }) => {
             const params = _id ? { _id } : {};
             return Location.find(params)
+        },
+        isUserVerified: async( parent, args, context) => {
+
+            if(!context.user) {
+                throw AuthenticationError;
+            };
+
+            try {
+                const user = await User.findById(context.user._id)
+                return user.isVerified;
+            } catch (error) {
+                console.error(error);
+                throw new Error("Error retrieving verificaiton status");
+            }
+
         }
     },
     Mutation: {
-        addUser: async (parent, {email, password}) => {
-            const user = await User.create({email, password});
+        addUser: async (parent, {email, password, isVerified}) => {
+            const user = await User.create({email, password, isVerified});
             const token = signToken(user);
             await verifyUser(user)
             // use the token returned in the headers of apollo sandbox for testing

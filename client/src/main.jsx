@@ -25,7 +25,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />
+        element: <GuestRoute><Home /></GuestRoute>
       }, {
         path: "/login",
         element: <GuestRoute><Login /></GuestRoute>
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
         element: <VerifyEmailRoute><Signup /></VerifyEmailRoute>
       }, {
         path: "/verify_email",
-        element: <EmailVerification />
+        element: <GuestRoute><EmailVerification /></GuestRoute>
       }, {
         path: "/profile",
         element: <ProtectedRoute><TestingComponent /></ProtectedRoute>

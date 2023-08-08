@@ -35,10 +35,29 @@ class AuthService {
   }
 
   signUp(idToken) {
-        // Saves user token to localStorage
-        localStorage.setItem("id_token", idToken);
+    // sends newly signed up user to verify_email page
+    localStorage.setItem("id_token", idToken);
 
-        window.location.assign("/verify_email");
+    window.location.assign("/verify_email");
+  }
+
+  isVerified() {
+    const token = localStorage.getItem("id_token");
+
+    if(token){
+      try {
+        const decoded = decode(token);
+        console.log(decoded)
+        if(decoded.data.isVerified){
+          return true;
+        }
+      } catch (error){
+        console.error(error);
+        return false;
+      }
+    }
+
+    return false;
   }
 
   logout() {

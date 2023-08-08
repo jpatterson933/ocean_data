@@ -48,8 +48,8 @@ module.exports = {
 
         return req;
     },
-    signToken: function ({ email, _id }) {
-        const payload = { email, _id };
+    signToken: function ({ email, _id, isVerified }) {
+        const payload = { email, _id, isVerified };
         return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
     },
     verifyUser: async function ({ email, _id }) {

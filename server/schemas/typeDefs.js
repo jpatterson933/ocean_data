@@ -24,6 +24,7 @@ const typeDefs =   `
         user(email: String!): User
         me: User
         users: [User]
+        isUserVerified: Boolean!
 
         
         locations(_id: String): [Location]
