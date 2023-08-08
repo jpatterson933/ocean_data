@@ -12,6 +12,7 @@ import NoExistingPage from "./pages/NoExistingPage";
 import Home from "./pages/Home";
 import ProtectedRoute from "./components/ProtectedRoute";
 import GuestRoute from "./components/GuestRoute";
+import EmailVerification from "./components/EmailVerification";
 // testing component
 import TestingComponent from "./components/test";
 
@@ -30,6 +31,9 @@ const router = createBrowserRouter([
       }, {
         path: "/signup",
         element: <GuestRoute><Signup /></GuestRoute>
+      }, {
+        path: "/confirmation/:token",
+        element: <EmailVerification />
       }, {
         path: "/profile",
         element: <ProtectedRoute><TestingComponent/></ProtectedRoute>

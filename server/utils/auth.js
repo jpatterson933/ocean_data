@@ -1,6 +1,8 @@
+const { User } = require("../models");
 const { GraphQLError } = require("graphql");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const rn = require("random-number");
 require("dotenv").config();
 
 const secret = "mysecretssshhhhhhhsecretsecret";
@@ -51,31 +53,28 @@ module.exports = {
         return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
     },
     verifyUser: async function ({ email, _id }) {
-        const emailToken = jwt.sign(
-            {
-                user: _id,
-            },
-            emailSecret,
-            {
-                expiresIn: "1d",
-            }
-        )
 
-        console.log(emailToken)
+        let gen = rn.generator({
+            min: 1000000,
+            max: 9999999,
+            integer: true
+        })
 
-        const url = `http://localhost:3000/confirmation/${emailToken}`
+        const digits = gen();
+
+        await User.findByIdAndUpdate(_id, {verificationNumber: digits});
 
         await transporter.sendMail({
             from: process.env.ZOHO_USERNAME,
             to: email,
             subject: "Please Verify Email For Ocean Data",
-            html: `Please click this link to confirm your email for Ocean Data <a href=${url}>${url}</a>`
+            html: `Please enter these digits ${digits} to verify your email.`
         })
     },
     getUserFromEmailToken: function (token) {
         try {
-            const {user: userId} = jwt.verify(token, emailSecret);
-            console.log(userId, "userId")
+            const { user: userId } = jwt.verify(token, emailSecret);
+            // console.log(userId, "userId")
             return userId;
         } catch (error) {
             console.error(error);

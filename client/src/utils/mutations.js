@@ -17,6 +17,17 @@ export const ADD_USER = gql`
     }
 `
 
+export const VERIFY_USER = gql`
+    mutation verifyUser($token: String!) {
+        verifyEmail(token: $token) {
+            _id
+            email
+            isVerified
+        }
+
+    }
+`
+
 export const LOGIN_USER = gql`
     mutation loginUser($email: String!, $password: String!) {
         loginUser(email: $email, password: $password) {

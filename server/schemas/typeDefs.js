@@ -4,6 +4,7 @@ const typeDefs =   `
         email: String
         password: String
         isVerified: Boolean
+        verificationNumber: Int
         locations: [Location]!
     }
     type Location {

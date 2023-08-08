@@ -30,6 +30,7 @@ const resolvers = {
         },
         verifyEmail: async (parent, {token}) => {
             try {
+                console.log("verify email mutation")
                 const userId = getUserFromEmailToken(token);
                 if(!userId){
                     throw new Error("Invalid or expired token!");
