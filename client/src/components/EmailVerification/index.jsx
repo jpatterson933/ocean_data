@@ -21,7 +21,9 @@ const EmailVerification = () => {
                 },
             })
 
-            if (response.data.verifyUser.isVerified) {
+            console.log(response)
+
+            if (response.data.verifyEmail.isVerified) {
                 navigate("/");
             }
 
