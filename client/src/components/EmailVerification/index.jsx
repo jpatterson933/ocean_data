@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { VERIFY_USER } from "../../utils/mutations";
 
@@ -21,12 +21,9 @@ const EmailVerification = () => {
                 },
             })
 
-            console.log(response)
-
             if (response.data.verifyEmail.isVerified) {
                 navigate("/");
             }
-
 
         } catch (error) {
             console.error(error);
@@ -37,8 +34,6 @@ const EmailVerification = () => {
         setConfirmationNumber(event.target.value);
     }
 
-
-
     if (loading) {
         return <h1>Verifying Email...</h1>
     }
@@ -46,7 +41,6 @@ const EmailVerification = () => {
     if (error) {
         return <h1>There was an errror verifying your email. Please try again</h1>
     }
-
 
     return (
         <form onSubmit={handleSubmit}>
@@ -58,12 +52,8 @@ const EmailVerification = () => {
                 onChange={handleChange}
             />
             <button type="submit">Verify Email</button>
-
         </form>
     )
-
-
-
 };
 
 export default EmailVerification;
