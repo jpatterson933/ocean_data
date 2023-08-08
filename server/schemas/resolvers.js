@@ -28,23 +28,14 @@ const resolvers = {
             // use the token returned in the headers of apollo sandbox for testing
             return {token, user};
         },
-        verifyEmail: async (parent, {confirmationNumber}, context) => {
+        verifyEmail: async (parent, {token, confirmationNumber}, context) => {
             try {
 
-                const authHeader = context.req.headers.authorization;
-                console.log(authHeader);
-
-                if(!authHeader){
-                    throw new Error ("Authentication token must be provided");
-
-                }
-
-                const token = authHeader.split("Bearer ")[1];
+                console.log("--------------------", token, "token")
+        
                 if(!token){
                     throw new Error("Authenticaiton token must be provided")
                 }
-
-
 
 
                 const userId = getUserFromEmailToken(token);

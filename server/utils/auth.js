@@ -62,7 +62,7 @@ module.exports = {
 
         const digits = gen();
 
-        await User.findByIdAndUpdate(_id, {verificationNumber: digits});
+        await User.findByIdAndUpdate(_id, { verificationNumber: digits });
 
         await transporter.sendMail({
             from: process.env.ZOHO_USERNAME,
@@ -73,7 +73,7 @@ module.exports = {
     },
     getUserFromEmailToken: function (token) {
         try {
-            const { _id: userId } = jwt.verify(token, secret, { maxAge: expiration });
+            const { data: { _id: userId } } = jwt.verify(token, secret, { maxAge: expiration });
             // console.log(userId, "userId")
             return userId;
         } catch (error) {
