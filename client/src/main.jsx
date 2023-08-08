@@ -11,7 +11,6 @@ import Login from "./pages/Login";
 import NoExistingPage from "./pages/NoExistingPage";
 import Home from "./pages/Home";
 import ProtectedRoute from "./components/ProtectedRoute";
-import GuestRoute from "./components/GuestRoute";
 import EmailVerification from "./components/EmailVerification";
 // testing component
 import TestingComponent from "./components/test";
