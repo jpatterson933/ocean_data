@@ -1,8 +1,12 @@
 # ocean_data
-# Current Landing Page
-<a href="https://imgur.com/Elqe70R"><img src="https://i.imgur.com/Elqe70R.png" title="source: imgur.com" /></a>
-# Current Home Page
-<a href="https://imgur.com/M1eBIaq"><img src="https://i.imgur.com/M1eBIaq.png" title="source: imgur.com" /></a>
+# Current Login/Landing Page
+<a href="https://imgur.com/WK6ae67"><img src="https://i.imgur.com/WK6ae67.png" title="source: imgur.com" /></a>
+
+# Current Signup Page
+<a href="https://imgur.com/qvIpUgl"><img src="https://i.imgur.com/qvIpUgl.png" title="source: imgur.com" /></a>
+
+# Once user is logged in
+<a href="https://imgur.com/9TmUKcF"><img src="https://i.imgur.com/9TmUKcF.png" title="source: imgur.com" /></a>
 
 # Issues
-Hey, knowledge-seekers and contributors! Check out our issues section for exciting opportunities to satisfy your curiosity and showcase your skills. Come join the adventure! 🚀🔍🏆
+Attention, thinkers and problem-solvers! 🧠💻 The issues section is open, filled with coding challenges 🚀🔍, collaboration opportunities 🤝💼, and intellectual engagement 📚👨‍💻. Keen on applying programming skills? 🛠️👩‍💻 Explore debugging mysteries 🐛💡 and contribute to meaningful projects 🏆🌐. Take part now and innovate for the future! 🌍👩‍🔬🎖️
