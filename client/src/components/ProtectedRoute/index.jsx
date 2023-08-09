@@ -9,6 +9,10 @@ const ProtectedRoute = ({ children }) => {
     const location = useLocation();
     const loggedIn = Auth.loggedIn();
 
+    if(loading) {
+        return <h1>Loading Page...</h1>
+    }
+
     if(location.pathname === "/verify_email" && loggedIn && isVerified){
         return <Navigate to="/" />
     }
@@ -17,7 +21,7 @@ const ProtectedRoute = ({ children }) => {
         return <Navigate to="/verify_email" />;
     };
 
-    if(location.pathname !=="/login" && location.path !== "/signup" && !loggedIn){
+    if(location.pathname !=="/login" && location.pathname !== "/signup" && !loggedIn){
         return <Navigate to="/login" />
     }
 

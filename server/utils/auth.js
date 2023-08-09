@@ -6,7 +6,6 @@ const rn = require("random-number");
 require("dotenv").config();
 
 const secret = "mysecretssshhhhhhhsecretsecret";
-const emailSecret = "supersupersecretstuffhere9"
 const expiration = "2h";
 
 const transporter = nodemailer.createTransport({
@@ -74,7 +73,6 @@ module.exports = {
     getUserFromEmailToken: function (token) {
         try {
             const { data: { _id: userId } } = jwt.verify(token, secret, { maxAge: expiration });
-            // console.log(userId, "userId")
             return userId;
         } catch (error) {
             console.error(error);

@@ -46,12 +46,9 @@ const resolvers = {
         verifyEmail: async (parent, {token, confirmationNumber}, context) => {
             try {
 
-                console.log("--------------------", token, "token")
-        
                 if(!token){
                     throw new Error("Authenticaiton token must be provided")
                 }
-
 
                 const userId = getUserFromEmailToken(token);
                 if(!userId){

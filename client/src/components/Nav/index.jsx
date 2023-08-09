@@ -1,6 +1,8 @@
 import Auth from "../../utils/auth";
+// bootstrap stuff
 import ListGroup from "react-bootstrap/ListGroup";
-
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar"
 import { Link } from "react-router-dom";
 
 function NavigationBar() {
@@ -9,28 +11,23 @@ function NavigationBar() {
 
         if (Auth.loggedIn()) {
             return (
-                <ListGroup horizontal>
-                    <ListGroup.Item>
-                        <Link to="/">Home</Link>
-
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                        <a href="/" onClick={(() => Auth.logout())}>
+                <Navbar fixed="top" bg="dark" data-bs-theme="dark">
+                    <Nav className="me-auto">
+                        <Nav.Link as={Link} to="/">Home</Nav.Link>
+                        <Nav.Link href="/" onClick={(() => Auth.logout())}>
                             Logout
-                        </a>
-                    </ListGroup.Item>
-                </ListGroup>
+                        </Nav.Link>
+                    </Nav>
+                </Navbar>
             )
         } else {
             return (
-                <ListGroup horizontal>
-                    <ListGroup.Item>
-                        <Link to="/login">Login</Link>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                        <Link to="/signup">Signup</Link>
-                    </ListGroup.Item>
-                </ListGroup>
+                <Navbar fixed="top" bg="dark" data-bs-theme="dark">
+                    <Nav className="me-auto">
+                        <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                        <Nav.Link as={Link} to="/signup">Signup</Nav.Link>
+                    </Nav>
+                </Navbar>
             )
         }
     }
