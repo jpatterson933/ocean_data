@@ -10,11 +10,10 @@ import Signup from "./pages/Signup.jsx";
 import Login from "./pages/Login";
 import NoExistingPage from "./pages/NoExistingPage";
 import Home from "./pages/Home";
+import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import EmailVerification from "./components/EmailVerification";
 import VerifyEmailRoute from "./components/VerifyEmailRoute";
-// testing component
-import TestingComponent from "./components/test";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +35,7 @@ const router = createBrowserRouter([
         element: <ProtectedRoute><EmailVerification /></ProtectedRoute>
       }, {
         path: "/profile",
-        element: <ProtectedRoute><TestingComponent /></ProtectedRoute>
+        element: <ProtectedRoute><Profile /></ProtectedRoute>
       }
     ]
   }
