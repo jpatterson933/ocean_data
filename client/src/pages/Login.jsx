@@ -2,9 +2,8 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
-// bootstrap
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import LoginSignupForm from "../components/LoginSignupForm";
+
 
 function Login() {
 
@@ -36,38 +35,14 @@ function Login() {
     };
 
     return (
-        <>
-            <h1>Please Login</h1>
-            <Form onSubmit={handleFormSubmit}>
-                <Form.Group className="mb-3">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                        placeholder="Email Address"
-                        name="email"
-                        type="email"
-                        id="email"
-                        onChange={handleChange}
-                    />
-                    <Form.Text className="text-muted">
-                        We will never share your email with anyone.
-                    </Form.Text>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        placeholder="*********"
-                        name="password"
-                        type="password"
-                        id="password"
-                        onChange={handleChange}
-                    />
-                    <Form.Text className="text-muted">
-                        Never share your password.
-                    </Form.Text>
-                </Form.Group>
-                <Button variant="dark" type="submit">Login</Button>
-            </Form>
-        </>
+        <LoginSignupForm
+            formTitle="Please Login"
+            onSubmit={handleFormSubmit}
+            onChange={handleChange}
+            emailMessage="We will never share your email with anyone."
+            passwordMessage="Never share your password."
+            buttonTitle="Login"
+        />
     )
 }
 

@@ -12,12 +12,22 @@ function NavigationBar() {
         if (Auth.loggedIn()) {
             return (
                 <Navbar fixed="top" bg="dark" data-bs-theme="dark">
-                    <Nav className="me-auto">
-                        <Nav.Link as={Link} to="/">Home</Nav.Link>
-                        <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
-                        <Nav.Link href="/" onClick={(() => Auth.logout())}>
-                            Logout
-                        </Nav.Link>
+                    <Nav variant="tabs" className="me-auto">
+                        <Nav.Item>
+                            <Nav.Link as={Link} to="/">Home</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+
+                            <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
+                        </Nav.Item>
+                    </Nav>
+                    <Nav variant="tabs" className="justify-content-end">
+                        <Nav.Item>
+
+                            <Nav.Link href="/" onClick={(() => Auth.logout())}>
+                                Logout
+                            </Nav.Link>
+                        </Nav.Item>
                     </Nav>
                 </Navbar>
             )
