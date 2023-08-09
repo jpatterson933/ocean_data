@@ -12,6 +12,5 @@ export default function userVerifiedHook() {
             stopPolling();
         }
     }, [startPolling, stopPolling])
-    console.log(data?.isUserVerified, "data")
     return {isVerified: data?.isUserVerified, loading, error}
 };
