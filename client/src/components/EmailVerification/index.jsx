@@ -4,6 +4,11 @@ import { useNavigate } from "react-router-dom";
 
 import { VERIFY_USER } from "../../utils/mutations";
 
+//bootstrap
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Button from "react-bootstrap/Button";
+
 const EmailVerification = () => {
 
     const navigate = useNavigate();
@@ -43,16 +48,19 @@ const EmailVerification = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="confirmationNumber">Enter the confirmation number sent to your email</label>
-            <input
-                type="number"
-                id="confirmationNumber"
-                value={confirmationNumber}
-                onChange={handleChange}
-            />
-            <button type="submit">Verify Email</button>
-        </form>
+        <Form onSubmit={handleSubmit}>
+            <InputGroup size="lg">
+                <InputGroup.Text id="inputGroup-sizing-lg">Validation #</InputGroup.Text>
+                <Form.Control
+                    aria-label="Large"
+        
+                    id="confirmationNumber"
+                    value={confirmationNumber}
+                    onChange={handleChange}
+                />
+                <Button variant="dark" type="submit">Validate Email</Button>
+            </InputGroup>
+        </Form>
     )
 };
 

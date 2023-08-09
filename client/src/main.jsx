@@ -12,9 +12,9 @@ import NoExistingPage from "./pages/NoExistingPage";
 import Home from "./pages/Home";
 import ProtectedRoute from "./components/ProtectedRoute";
 import EmailVerification from "./components/EmailVerification";
+import VerifyEmailRoute from "./components/VerifyEmailRoute";
 // testing component
 import TestingComponent from "./components/test";
-import VerifyEmailRoute from "./components/VerifyEmailRoute";
 
 const router = createBrowserRouter([
   {

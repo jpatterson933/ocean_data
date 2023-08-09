@@ -1,6 +1,8 @@
-function Home(){
+function Home() {
     return (
-        <h1>Ocean Data</h1>
+        <>
+            <h1>Ocean Data</h1>
+        </>
     )
 }
 
