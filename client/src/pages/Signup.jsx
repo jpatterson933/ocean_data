@@ -2,18 +2,12 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import { ADD_USER } from "../utils/mutations";
-import { useNavigate } from "react-router-dom";
 import LoginSignupForm from "../components/LoginSignupForm";
-// bootstrap
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-
 
 function Signup() {
 
     const [formState, setFormState] = useState({ email: "", password: "" });
     const [addUser] = useMutation(ADD_USER);
-    const navigate = useNavigate();
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
@@ -26,8 +20,6 @@ function Signup() {
         });
         const token = mutationResponse.data.addUser.token;
         Auth.signUp(token);
-
-
     }
 
     const handleChange = (event) => {
