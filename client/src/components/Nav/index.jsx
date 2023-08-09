@@ -1,14 +1,11 @@
 import Auth from "../../utils/auth";
 // bootstrap stuff
-import ListGroup from "react-bootstrap/ListGroup";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar"
 import { Link } from "react-router-dom";
 
 function NavigationBar() {
-
     function showNavigation() {
-
         if (Auth.loggedIn()) {
             return (
                 <Navbar fixed="top" bg="dark" data-bs-theme="dark">
@@ -17,13 +14,11 @@ function NavigationBar() {
                             <Nav.Link as={Link} to="/">Home</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-
                             <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
                         </Nav.Item>
                     </Nav>
                     <Nav variant="tabs" className="justify-content-end">
                         <Nav.Item>
-
                             <Nav.Link href="/" onClick={(() => Auth.logout())}>
                                 Logout
                             </Nav.Link>
@@ -42,7 +37,6 @@ function NavigationBar() {
             )
         }
     }
-
     return (
         <nav>
             {showNavigation()}
