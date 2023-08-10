@@ -2,6 +2,8 @@ import { Navigate, useLocation } from "react-router-dom";
 import Auth from "../../utils/auth";
 import userVerifiedHook from "../../hooks/userVerifiedHook";
 
+import Spinner from "react-bootstrap/Spinner";
+
 const ProtectedRoute = ({ children }) => {
 
     const { isVerified, loading } = userVerifiedHook();
@@ -10,7 +12,11 @@ const ProtectedRoute = ({ children }) => {
     const loggedIn = Auth.loggedIn();
 
     if (loading) {
-        return <h1>Loading Page...</h1>
+        return (
+            <Spinner animation="border" role="loading">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        );
     };
 
     if (loggedIn) {

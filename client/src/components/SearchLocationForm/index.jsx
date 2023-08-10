@@ -33,16 +33,15 @@ function SearchLocationForm() {
                 placeholder="Enter city name"
             />
             <datalist id="cities">
-                <option value="Malibu" />
-                <option value="Tel Aviv" />
                 <option value="Bilbao" />
-                <option value="Honolulu" />
-                <option value="Cape Town" />
-                <option value="Lisbon" />
                 <option value="Bondi" />
-                <option value="Sydney" />
+                <option value="Cape Town" />
+                <option value="Honolulu" />
+                <option value="Lisbon" />
+                <option value="Malibu" />
                 <option value="Rio de Janeiro" />
-
+                <option value="Sydney" />
+                <option value="Tel Aviv" />
             </datalist>
             <button type="submit">Submit</button>
         </form>

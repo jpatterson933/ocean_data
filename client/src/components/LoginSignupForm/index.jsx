@@ -3,7 +3,6 @@ import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 
 function LoginSignupForm(props) {
-
     return (
         <>
             <h1>{props.formTitle}</h1>
@@ -24,7 +23,6 @@ function LoginSignupForm(props) {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <FloatingLabel label="Password" className="mb-3">
-
                         <Form.Control
                             placeholder="**********"
                             name="password"
@@ -40,10 +38,7 @@ function LoginSignupForm(props) {
                 <Button variant="dark" type="submit">{props.buttonTitle}</Button>
             </Form>
         </>
-
-
-
-    )
-}
+    );
+};
 
 export default LoginSignupForm;
