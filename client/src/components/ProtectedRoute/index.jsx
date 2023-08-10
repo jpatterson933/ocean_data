@@ -4,29 +4,32 @@ import userVerifiedHook from "../../hooks/userVerifiedHook";
 
 const ProtectedRoute = ({ children }) => {
 
-    const {isVerified, loading} = userVerifiedHook();
+    const { isVerified, loading } = userVerifiedHook();
 
     const location = useLocation();
     const loggedIn = Auth.loggedIn();
 
-    if(loading) {
+    if (loading) {
         return <h1>Loading Page...</h1>
-    }
-
-    if(location.pathname === "/verify_email" && loggedIn && isVerified){
-        return <Navigate to="/" />
-    }
-
-    if (location.pathname !== "/verify_email" && loggedIn && !isVerified) {
-        return <Navigate to="/verify_email" />;
     };
 
-    if(location.pathname !=="/login" && location.pathname !== "/signup" && !loggedIn){
-        return <Navigate to="/login" />
-    }
+    if (loggedIn) {
+        if (location.pathname === "/verify_email" && isVerified) {
+            return <Navigate to="/" />
+        };
 
-    return children
+        if (location.pathname !== "/verify_email" && !isVerified) {
+            return <Navigate to="/verify_email" />;
+        };
 
+    } else if (!loggedIn) {
+
+        if (!["/login", "/signup"].includes(location.pathname)) {
+            return <Navigate to="/login" />
+        };
+    };
+
+    return children;
 };
 
 export default ProtectedRoute;
