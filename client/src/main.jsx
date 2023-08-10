@@ -13,6 +13,7 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import EmailVerification from "./components/EmailVerification";
+import SearchLocation from "./pages/SearchLocation";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,9 @@ const router = createBrowserRouter([
       }, {
         path: "/profile",
         element: <ProtectedRoute><Profile /></ProtectedRoute>
+      }, {
+        path: "/search_location",
+        element: <ProtectedRoute><SearchLocation /></ProtectedRoute>
       }
     ]
   }

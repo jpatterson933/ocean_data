@@ -16,6 +16,9 @@ function NavigationBar() {
                         <Nav.Item as="li">
                             <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
                         </Nav.Item>
+                        <Nav.Item as="li">
+                            <Nav.Link as={Link} to="search_location">Ocean</Nav.Link>
+                        </Nav.Item>
                     </Nav>
                     <Nav variant="tabs" className="justify-content-end">
                         <Nav.Item as="li">
