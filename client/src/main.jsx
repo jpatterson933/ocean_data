@@ -13,7 +13,6 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import EmailVerification from "./components/EmailVerification";
-import VerifyEmailRoute from "./components/VerifyEmailRoute";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +28,7 @@ const router = createBrowserRouter([
         element: <ProtectedRoute><Login /></ProtectedRoute>
       }, {
         path: "/signup",
-        element: <VerifyEmailRoute><Signup /></VerifyEmailRoute>
+        element: <ProtectedRoute><Signup /></ProtectedRoute>
       }, {
         path: "/verify_email",
         element: <ProtectedRoute><EmailVerification /></ProtectedRoute>
