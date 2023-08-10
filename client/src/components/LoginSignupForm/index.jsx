@@ -1,5 +1,6 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
 
 function LoginSignupForm(props) {
 
@@ -8,27 +9,30 @@ function LoginSignupForm(props) {
             <h1>{props.formTitle}</h1>
             <Form onSubmit={props.onSubmit}>
                 <Form.Group className="mb-3">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                        placeholder="Email Address"
-                        name="email"
-                        type="email"
-                        id="email"
-                        onChange={props.onChange}
-                    />
+                    <FloatingLabel label="Email Address" className="mb-3">
+                        <Form.Control
+                            placeholder="Email Address"
+                            name="email"
+                            type="email"
+                            id="email"
+                            onChange={props.onChange}
+                        />
+                    </FloatingLabel>
                     <Form.Text className="text-muted">
                         {props.emailMessage}
                     </Form.Text>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        placeholder="**********"
-                        name="password"
-                        type="password"
-                        id="password"
-                        onChange={props.onChange}
-                    />
+                    <FloatingLabel label="Password" className="mb-3">
+
+                        <Form.Control
+                            placeholder="**********"
+                            name="password"
+                            type="password"
+                            id="password"
+                            onChange={props.onChange}
+                        />
+                    </FloatingLabel>
                     <Form.Text className="text-muted">
                         {props.passwordMessage}
                     </Form.Text>
