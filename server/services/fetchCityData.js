@@ -9,13 +9,16 @@ function createQuery(city) {
 };
 
 function mutationQueryForLocationModel() {
-    const graphQLMutation = `mutation ($name: String!, $latitude: Float!, $longitude: Float!, $countryCode: String, $weatherData: [WeatherDataInput]) {
-    createLocation(name: $name, latitude: $latitude, longitude: $longitude, countryCode: $countryCode, weatherData: $weatherData) {
+    const graphQLMutation = `mutation ($name: String!, $latitude: Float!, $longitude: Float!, $countryCode: String, $timezone: Int, $sunrise: Int, $sunset: Int, $weatherData: [WeatherDataInput]) {
+    createLocation(name: $name, latitude: $latitude, longitude: $longitude, countryCode: $countryCode, timezone: $timezone, sunrise: $sunrise, sunset: $sunset, weatherData: $weatherData) {
             _id
             name
             latitude
             longitude
             countryCode
+            timezone
+            sunrise
+            sunset
             weatherData {
                 dt
                 main {
@@ -60,7 +63,10 @@ async function responseDataForLocationModel(data) {
         name: data.city.name,
         latitude: data.city.coord.lat,
         longitude: data.city.coord.lon,
-        countryCode: data.city.country
+        countryCode: data.city.country,
+        timezone: data.city.timezone,
+        sunrise: data.city.sunrise,
+        sunset: data.city.sunset
     };
     return cityMeridian;
 };

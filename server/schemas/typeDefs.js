@@ -106,10 +106,11 @@ const typeDefs =   `
         latitude: Float!
         longitude: Float!
         countryCode: String
+        timezone: Int
+        sunrise: Int
+        sunset: Int
         weatherData: [WeatherData]
     }
-
-
 
     type Auth {
         token: ID!
@@ -136,7 +137,7 @@ const typeDefs =   `
         loginUser(email: String!, password: String!): Auth
 
 
-        createLocation(name: String!, latitude: Float!, longitude: Float!, countryCode: String, weatherData: [WeatherDataInput] ): Location
+        createLocation(name: String!, latitude: Float!, longitude: Float!, countryCode: String, timezone: Int, sunrise: Int, sunset: Int, weatherData: [WeatherDataInput] ): Location
         fetchCityData(cityName: String!): String
     }
 `

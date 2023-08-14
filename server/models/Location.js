@@ -17,6 +17,15 @@ const locationSchema = new Schema({
     countryCode: {
         type: String,
     },
+    timezone: {
+        type: Number,
+    },
+    sunrise: {
+        type: Number,
+    },
+    sunset: {
+        type: Number,
+    },
     weatherData: [weatherSchema]
 });
 
