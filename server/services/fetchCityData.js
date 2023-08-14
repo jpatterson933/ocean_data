@@ -9,13 +9,47 @@ function createQuery(city) {
 };
 
 function mutationQueryForLocationModel() {
-    const graphQLMutation = `mutation ($name: String!, $latitude: Float!, $longitude: Float!, $countryCode: String) {
-    createLocation(name: $name, latitude: $latitude, longitude: $longitude, countryCode: $countryCode) {
+    const graphQLMutation = `mutation ($name: String!, $latitude: Float!, $longitude: Float!, $countryCode: String, $weatherData: [WeatherDataInput]) {
+    createLocation(name: $name, latitude: $latitude, longitude: $longitude, countryCode: $countryCode, weatherData: $weatherData) {
             _id
             name
             latitude
             longitude
             countryCode
+            weatherData {
+                dt
+                main {
+                    temp
+                    feels_like
+                    temp_min
+                    temp_max
+                    pressure
+                    sea_level
+                    grnd_level
+                    humidity
+                    temp_kf
+                }
+                weather {
+                    id
+                    main
+                    description
+                    icon
+                }
+                clouds {
+                    all
+                }
+                wind {
+                    speed
+                    deg
+                    gust
+                }
+                visibility
+                pop
+                sys {
+                    pod
+                }
+                dt_txt
+            }
         }
     }`;
     return graphQLMutation;
@@ -31,6 +65,21 @@ async function responseDataForLocationModel(data) {
     return cityMeridian;
 };
 
+async function responseDataForForecastModel(data){
+    return data.list.map(entry => ({
+        dt: entry.dt,
+        main: entry.main,
+        weather: entry.weather,
+        clouds: entry.clouds,
+        wind: entry.wind,
+        visibility: entry.visibility,
+        pop: entry.pop,
+        sys: entry.sys,
+        dt_txt: entry.dt_txt,
+
+    }))
+}
+
 async function createNewLocationModel(mutationQuery, mutationVariables){
     await axios.post('http://localhost:3001/graphql', {
         query: mutationQuery,
@@ -44,13 +93,20 @@ async function getCityDataCreateNewLocationModel(cityName) {
         let {status, data} = await axios.get(query);
         if (status === 200) {
             const mutationData = await responseDataForLocationModel(data);
+            const mutationForecastData = await responseDataForForecastModel(data);
+            
             const mutationQuery = mutationQueryForLocationModel();
-            await createNewLocationModel(mutationQuery, mutationData);
+            await createNewLocationModel(mutationQuery, {
+                ...mutationData,
+                weatherData: mutationForecastData
+            
+            });
         } else {
             console.error("Please enter a valid city name");
         };
     } catch (error) {
-        console.error(error);
+        // console.error(error.response)
+        console.error(error.response.data);
     };
 };
 

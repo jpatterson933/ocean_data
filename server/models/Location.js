@@ -1,4 +1,5 @@
 const {Schema, model } = require("mongoose");
+const weatherSchema = require("./Weather");
 
 const locationSchema = new Schema({
     name: {
@@ -16,6 +17,7 @@ const locationSchema = new Schema({
     countryCode: {
         type: String,
     },
+    weatherData: [weatherSchema]
 });
 
 const Location = model("Location", locationSchema);
