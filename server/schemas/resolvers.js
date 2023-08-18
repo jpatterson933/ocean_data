@@ -7,21 +7,21 @@ const resolvers = {
         user: async (parent, { email }) => {
             return User.findOne({ email }).populate("locations")
         },
-        me: async(parent, args, context) => {
-            if(context.user) {
-                return User.findOne({_id: context.user._id}).populate("locations")
+        me: async (parent, args, context) => {
+            if (context.user) {
+                return User.findOne({ _id: context.user._id }).populate("locations")
             }
         },
-        users: async(parent, args) => {
+        users: async (parent, args) => {
             return User.find({}).populate("locations");
         },
         locations: async (parent, { _id }) => {
             const params = _id ? { _id } : {};
             return Location.find(params)
         },
-        isUserVerified: async( parent, args, context) => {
+        isUserVerified: async (parent, args, context) => {
 
-            if(!context.user) {
+            if (!context.user) {
                 throw AuthenticationError;
             };
 
@@ -36,32 +36,32 @@ const resolvers = {
         }
     },
     Mutation: {
-        addUser: async (parent, {email, password, isVerified}) => {
-            const user = await User.create({email, password, isVerified});
+        addUser: async (parent, { email, password, isVerified }) => {
+            const user = await User.create({ email, password, isVerified });
             const token = signToken(user);
             await verifyUser(user)
             // use the token returned in the headers of apollo sandbox for testing
-            return {token, user};
+            return { token, user };
         },
-        verifyEmail: async (parent, {token, confirmationNumber}, context) => {
+        verifyEmail: async (parent, { token, confirmationNumber }, context) => {
             try {
 
-                if(!token){
+                if (!token) {
                     throw new Error("Authenticaiton token must be provided")
                 }
 
                 const userId = getUserFromEmailToken(token);
-                if(!userId){
+                if (!userId) {
                     throw new Error("Invalid or expired token!");
                 }
 
                 const user = await User.findById(userId);
 
-                if(!user) {
+                if (!user) {
                     throw new Error("User not found!!");
                 }
 
-                if(user.verificationNumber !== confirmationNumber){
+                if (user.verificationNumber !== confirmationNumber) {
                     throw new Error("Verification number does not match!");
                 }
 
@@ -69,40 +69,40 @@ const resolvers = {
                 await user.save();
 
                 return user;
-            } catch(error){
+            } catch (error) {
                 console.error(error);
             }
         },
 
-        updateUser: async(parent, args, context) => {
-            if(context.user) {
-                return User.findByIdAndUpdate(context.user._id, args, {new: true});
+        updateUser: async (parent, args, context) => {
+            if (context.user) {
+                return User.findByIdAndUpdate(context.user._id, args, { new: true });
             }
 
             throw AuthenticationError;
         },
-        deleteUser: async(parent, args, context) => {
-            if(context.user) {
+        deleteUser: async (parent, args, context) => {
+            if (context.user) {
                 return User.findOneAndDelete({ _id: context.user._id })
             }
             throw AuthenticationError;
         },
 
-        loginUser: async(parent, {email, password}) => {
-            const user = await User.findOne({email});
+        loginUser: async (parent, { email, password }) => {
+            const user = await User.findOne({ email });
 
-            if(!user) {
+            if (!user) {
                 throw AuthenticationError;
             };
             const correctPassword = await user.isCorrectPassword(password)
 
-            if(!correctPassword){
+            if (!correctPassword) {
                 throw AuthenticationError;
             };
 
             const token = signToken(user);
 
-            return { token, user}
+            return { token, user }
 
         },
 
@@ -115,13 +115,14 @@ const resolvers = {
         },
         createLocation: async (parent, args, context) => {
             const location = await Location.create(args);
-            console.log(location._id, "location")
-            console.log(args.userId, "user id?")
             const userId = args.userId;
-            if(userId){
+            if (userId) {
                 await User.findByIdAndUpdate(userId, {
                     $push: {
-                        locations: location._id
+                        locations: {
+                            $each: [location._id],
+                            $slice: -1
+                        }
                     }
                 })
             }
