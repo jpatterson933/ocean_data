@@ -109,13 +109,25 @@ const resolvers = {
 
 
 
-        fetchCityData: async (parent, { cityName }) => {
-            console.log(cityName, "testing")
-            const cityData = await getCityDataCreateNewLocationModel(cityName);
+        fetchCityData: async (parent, { cityName }, context) => {
+            console.log(context.user._id, "user id")
+            const userId = context.user._id;
+            const cityData = await getCityDataCreateNewLocationModel(cityName, userId);
+
             return cityData;
         },
-        createLocation: async (parent, args) => {
+        createLocation: async (parent, args, context) => {
             const location = await Location.create(args);
+            console.log(location._id, "location")
+            console.log(args.userId, "user id?")
+            const userId = args.userId;
+            if(userId){
+                await User.findByIdAndUpdate(userId, {
+                    $push: {
+                        locations: location._id
+                    }
+                })
+            }
             return location;
         }
     }

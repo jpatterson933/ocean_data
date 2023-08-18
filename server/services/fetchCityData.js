@@ -9,8 +9,8 @@ function createQuery(city) {
 };
 
 function mutationQueryForLocationModel() {
-    const graphQLMutation = `mutation ($name: String!, $latitude: Float!, $longitude: Float!, $countryCode: String, $timezone: Int, $sunrise: Int, $sunset: Int, $weatherData: [WeatherDataInput]) {
-    createLocation(name: $name, latitude: $latitude, longitude: $longitude, countryCode: $countryCode, timezone: $timezone, sunrise: $sunrise, sunset: $sunset, weatherData: $weatherData) {
+    const graphQLMutation = `mutation ($name: String!, $latitude: Float!, $longitude: Float!, $countryCode: String, $timezone: Int, $sunrise: Int, $sunset: Int, $weatherData: [WeatherDataInput], $userId: ID!) {
+    createLocation(name: $name, latitude: $latitude, longitude: $longitude, countryCode: $countryCode, timezone: $timezone, sunrise: $sunrise, sunset: $sunset, weatherData: $weatherData, userId: $userId) {
             _id
             name
             latitude
@@ -71,7 +71,7 @@ async function responseDataForLocationModel(data) {
     return cityMeridian;
 };
 
-async function responseDataForForecastModel(data){
+async function responseDataForForecastModel(data) {
     return data.list.map(entry => ({
         dt: entry.dt,
         main: entry.main,
@@ -86,27 +86,29 @@ async function responseDataForForecastModel(data){
     }))
 }
 
-async function createNewLocationModel(mutationQuery, mutationVariables){
+async function createNewLocationModel(mutationQuery, mutationVariables) {
     await axios.post('http://localhost:3001/graphql', {
         query: mutationQuery,
         variables: mutationVariables,
     });
 };
 
-async function getCityDataCreateNewLocationModel(cityName) {
+async function getCityDataCreateNewLocationModel(cityName, userId) {
     let query = createQuery(cityName)
     try {
-        let {status, data} = await axios.get(query);
+        let { status, data } = await axios.get(query);
         if (status === 200) {
             const mutationData = await responseDataForLocationModel(data);
             const mutationForecastData = await responseDataForForecastModel(data);
-            
+
             const mutationQuery = mutationQueryForLocationModel();
-            await createNewLocationModel(mutationQuery, {
+            const response = await createNewLocationModel(mutationQuery, {
                 ...mutationData,
-                weatherData: mutationForecastData
-            
+                weatherData: mutationForecastData,
+                userId: userId
+
             });
+
         } else {
             console.error("Please enter a valid city name");
         };
@@ -116,4 +118,4 @@ async function getCityDataCreateNewLocationModel(cityName) {
     };
 };
 
-module.exports = {getCityDataCreateNewLocationModel};
+module.exports = { getCityDataCreateNewLocationModel };
