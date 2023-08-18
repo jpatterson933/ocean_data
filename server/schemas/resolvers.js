@@ -106,9 +106,6 @@ const resolvers = {
 
         },
 
-
-
-
         fetchCityData: async (parent, { cityName }, context) => {
             console.log(context.user._id, "user id")
             const userId = context.user._id;

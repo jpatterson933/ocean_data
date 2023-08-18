@@ -1,16 +1,34 @@
+import { useQuery } from "@apollo/client";
+import { QUERY_ME } from "../utils/queries";
+// bootstrap styling
+import ListGroup from 'react-bootstrap/ListGroup';
+
 function Profile() {
-    return (
-        <>
-            <h1>Profile Page</h1>
-            <p>This is where basic crud will go</p>
-            <ul>
-                <li>User can currently be created</li>
-                <li>User can currently login</li>
-                <li>User should be able to delete themselves - should require two types of okays similar to the git</li>
-                <li>User should be able to update their info - password - email</li>
-            </ul>
-        </>
-    )
+
+    const { data, loading} = useQuery(QUERY_ME)
+
+    if (loading) {
+        return (
+            <h1>Loading data...</h1>
+        )
+    }
+    if (data) {
+        const user = data.me;
+
+        console.log(data, "test")
+        return (
+            <>
+                <h1>Welcome {user.email}</h1>
+                <p>There is not much here now, but this site will continue to grow and develop into something amazing.</p>
+                <h2>Here is a list of the countries you have searched for!</h2>
+                {user.locations.map(location => (
+                    <ListGroup key={location._id}>
+                        <ListGroup.Item key={location.longitude}>{location.name}</ListGroup.Item>
+                    </ListGroup>
+                ))}
+            </>
+        )
+    }
 }
 
 export default Profile;
