@@ -20,7 +20,7 @@ function Profile() {
             <>
                 <h1>Welcome {user.email}</h1>
                 <p>There is not much here now, but this site will continue to grow and develop into something amazing.</p>
-                <h2>Here is a list of the countries you have searched for!</h2>
+                <h2>This is the last city you looked up.</h2>
                 {user.locations.map(location => (
                     <ListGroup key={location._id}>
                         <ListGroup.Item key={location.longitude}>{location.name}</ListGroup.Item>
