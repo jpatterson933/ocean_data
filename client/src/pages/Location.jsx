@@ -5,8 +5,9 @@ import { useParams } from 'react-router-dom';
 import { QUERY_LOCATION } from "../utils/queries";
 
 import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
 import Table from 'react-bootstrap/Table';
+
+import { LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Line } from 'recharts';
 
 function Location() {
 
@@ -44,6 +45,24 @@ function Location() {
 
             const { name, countryCode, latitude, longitude, timezone, sunrise, sunset, weatherData } = data.locations[0]
 
+            function createWindDataObject(weatherData) {
+                let windData = [];
+                weatherData.map(thirdHour => {
+                    let hourlyTime = thirdHour.dt_txt.split(" ")[1].split(":")[0];
+                    const dataObject = {
+                        date: hourlyTime,
+                        windSpeed: thirdHour.wind.speed,
+                        gustSpeed: thirdHour.wind.gust
+                    }
+
+                    windData.push(dataObject);
+                })
+                console.log(windData)
+
+                return windData;
+            }
+
+            const windWeatherData = createWindDataObject(weatherData);
 
 
             return (
@@ -73,6 +92,17 @@ function Location() {
                             </tbody>
                         </Table>
                     </Card>
+                    <h3>Wind & Gust Data for next five days</h3>
+                    <LineChart width={730} height={250} data={windWeatherData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Line type="monotone" dataKey="windSpeed" stroke="#8884d8" />
+                        <Line type="monotone" dataKey="gustSpeed" stroke="#82ca9d" />
+                    </LineChart>
+                    <p>This data is broken down into 3 hour increments.</p>
                 </>
             )
         }
