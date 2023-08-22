@@ -72,7 +72,6 @@ async function responseDataForLocationModel(data) {
 };
 
 async function responseDataForForecastModel(data) {
-    console.log(data.list[0].weather)
     return data.list.map(entry => ({
         dt: entry.dt,
         main: entry.main,
