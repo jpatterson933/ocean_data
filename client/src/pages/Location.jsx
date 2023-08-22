@@ -47,12 +47,15 @@ function Location() {
 
             function createWindDataObject(weatherData) {
                 let windData = [];
+                
                 weatherData.map(thirdHour => {
+                    let windMph = (thirdHour.wind.speed * 2.23693629).toFixed(2);
+                    let gustMph = (thirdHour.wind.gust * 2.23693629).toFixed(2);
                     let hourlyTime = thirdHour.dt_txt.split(" ")[1].split(":")[0];
                     const dataObject = {
                         date: hourlyTime,
-                        windSpeed: thirdHour.wind.speed,
-                        gustSpeed: thirdHour.wind.gust
+                        windSpeed: windMph,
+                        gustSpeed: gustMph
                     }
 
                     windData.push(dataObject);
@@ -62,8 +65,25 @@ function Location() {
                 return windData;
             }
 
-            const windWeatherData = createWindDataObject(weatherData);
+            function createTemperatureDataObject(weatherData){
+                let temperatureData = [];
+                weatherData.map(thirdHour => {
+                    let hourlyTime = thirdHour.dt_txt.split(" ")[1].split(":")[0];
+                    let tempInFahrenheit = ((thirdHour.main.temp - 273.15) * 1.8 + 32).toFixed(2);
+                    let feelsLikeInFahrenheit = ((thirdHour.main.feels_like - 273.15) * 1.8 + 32).toFixed(2)
+                    const dataObject = {
+                        date: hourlyTime,
+                        temperature: tempInFahrenheit,
+                        feelsLike: feelsLikeInFahrenheit,
+                    }
+                    temperatureData.push(dataObject);
+                })
 
+                return temperatureData;
+            }
+
+            const windWeatherData = createWindDataObject(weatherData);
+            const temperatureData = createTemperatureDataObject(weatherData);
 
             return (
                 <>
@@ -92,17 +112,27 @@ function Location() {
                             </tbody>
                         </Table>
                     </Card>
-                    <h3>Wind & Gust Data for next five days</h3>
+                    <h3>Wind & Gust Data for next five days (mph)</h3>
                     <LineChart width={730} height={250} data={windWeatherData}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="date" />
-                        <YAxis />
+                        <YAxis type="number" domain={['auto', 'auto']} />
                         <Tooltip />
                         <Legend />
                         <Line type="monotone" dataKey="windSpeed" stroke="#8884d8" />
                         <Line type="monotone" dataKey="gustSpeed" stroke="#82ca9d" />
                     </LineChart>
                     <p>This data is broken down into 3 hour increments.</p>
+                    <h3>Temperature Data for next five days (Fahrenheit)</h3>
+                    <LineChart width={730} height={250} data={temperatureData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" />
+                        <YAxis type="number" domain={[0, 125]} />
+                        <Tooltip />
+                        <Legend />
+                        <Line type="monotone" dataKey="temperature" stroke="#8884d8" />
+                        <Line type="monotone" dataKey="feelsLike" stroke="#82ca9d" />
+                    </LineChart>
                 </>
             )
         }
