@@ -117,13 +117,19 @@ const typeDefs =   `
         user: User
     }
 
+
+
+
+
+
+
+    
     type Query {
         user(email: String!): User
         me: User
         users: [User]
         isUserVerified: Boolean!
 
-        
         locations(_id: String): [Location]
     }
 

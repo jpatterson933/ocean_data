@@ -14,7 +14,7 @@ import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import EmailVerification from "./components/EmailVerification";
 import SearchLocation from "./pages/SearchLocation";
-
+import Location from "./pages/Location";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -39,6 +39,9 @@ const router = createBrowserRouter([
       }, {
         path: "/search_location",
         element: <ProtectedRoute><SearchLocation /></ProtectedRoute>
+      }, {
+        path: "/location/:locationId",
+        element: <ProtectedRoute><Location /></ProtectedRoute>
       }
     ]
   }

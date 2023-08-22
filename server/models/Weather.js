@@ -14,12 +14,12 @@ const weatherSchema = new Schema({
         humidity: Number,
         temp_kf: Number,
     },
-    weather: {
+    weather: [{
         id: Number,
         main: String,
         description: String,
         icon: String,
-    },
+    }],
     clouds: {
         all: Number,
     },

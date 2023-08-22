@@ -5,7 +5,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 
 function Profile() {
 
-    const { data, loading} = useQuery(QUERY_ME)
+    const { data, loading } = useQuery(QUERY_ME)
 
     if (loading) {
         return (
@@ -23,7 +23,11 @@ function Profile() {
                 <h2>This is the last city you looked up.</h2>
                 {user.locations.map(location => (
                     <ListGroup key={location._id}>
-                        <ListGroup.Item key={location.longitude}>{location.name}</ListGroup.Item>
+                        <ListGroup.Item key={location.longitude}>
+                            <a href={`location/${location._id}`}>
+                                {location.name}
+                            </a>
+                        </ListGroup.Item>
                     </ListGroup>
                 ))}
             </>

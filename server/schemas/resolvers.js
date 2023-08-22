@@ -17,6 +17,7 @@ const resolvers = {
         },
         locations: async (parent, { _id }) => {
             const params = _id ? { _id } : {};
+            console.log(_id)
             return Location.find(params)
         },
         isUserVerified: async (parent, args, context) => {
