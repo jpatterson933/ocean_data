@@ -47,7 +47,7 @@ function Location() {
 
             function createWindDataObject(weatherData) {
                 let windData = [];
-                
+
                 weatherData.map(thirdHour => {
                     let windMph = (thirdHour.wind.speed * 2.23693629).toFixed(2);
                     let gustMph = (thirdHour.wind.gust * 2.23693629).toFixed(2);
@@ -60,12 +60,12 @@ function Location() {
 
                     windData.push(dataObject);
                 })
-                console.log(windData)
+                // console.log(windData)
 
                 return windData;
             }
-
-            function createTemperatureDataObject(weatherData){
+            console.log(weatherData, "weatherdata")
+            function createTemperatureDataObject(weatherData) {
                 let temperatureData = [];
                 weatherData.map(thirdHour => {
                     let hourlyTime = thirdHour.dt_txt.split(" ")[1].split(":")[0];
@@ -82,8 +82,32 @@ function Location() {
                 return temperatureData;
             }
 
+            function createCloudDataObject(weatherData) {
+                let cloudData = [];
+
+                weatherData.map(thirdHour => {
+                    let hourlyTime = thirdHour.dt_txt.split(" ")[1].split(":")[0];
+                    let cloudsMeasurement = thirdHour.clouds.all;
+                    let visibilityMeasurement = thirdHour.visibility;
+
+                    let percentageVisible = ((visibilityMeasurement/10000) * 100).toFixed(0)
+                    const dataObject = {
+                        date: hourlyTime,
+                        cloudCoverage: cloudsMeasurement,
+                        visibility: percentageVisible
+
+                    }
+                    // console.log(cloudsMeasurement.clouds)
+                    cloudData.push(dataObject);
+                })
+                return cloudData;
+            }
+
             const windWeatherData = createWindDataObject(weatherData);
             const temperatureData = createTemperatureDataObject(weatherData);
+            const cloudData = createCloudDataObject(weatherData);
+
+            // console.log(visibilityData, "test")
 
             return (
                 <>
@@ -116,7 +140,7 @@ function Location() {
                     <LineChart width={730} height={250} data={windWeatherData}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="date" />
-                        <YAxis type="number" domain={['auto', 'auto']} />
+                        <YAxis type="number" domain={[0, 25]} />
                         <Tooltip />
                         <Legend />
                         <Line type="monotone" dataKey="windSpeed" stroke="#8884d8" />
@@ -133,6 +157,17 @@ function Location() {
                         <Line type="monotone" dataKey="temperature" stroke="#8884d8" />
                         <Line type="monotone" dataKey="feelsLike" stroke="#82ca9d" />
                     </LineChart>
+                    <h3>Cloud Coverage in the skies</h3>
+                    <LineChart width={730} height={250} data={cloudData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" />
+                        <YAxis type="number" domain={[0, 100]} />
+                        <Tooltip />
+                        <Legend />
+                        <Line type="monotone" dataKey="cloudCoverage" stroke="#8884d8" />
+                        <Line type="monotone" dataKey="visibility" stroke="#82ca9d" />
+                    </LineChart>
+                    <p>% of Clouds covering the sky & visible sky</p>
                 </>
             )
         }
