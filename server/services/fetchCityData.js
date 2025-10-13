@@ -1,4 +1,3 @@
-require("dotenv").config();
 const axios = require("axios");
 
 function createQuery(city) {
@@ -9,8 +8,8 @@ function createQuery(city) {
 };
 
 function mutationQueryForLocationModel() {
-    const graphQLMutation = `mutation ($name: String!, $latitude: Float!, $longitude: Float!, $countryCode: String, $timezone: Int, $sunrise: Int, $sunset: Int, $weatherData: [WeatherDataInput], $userId: ID!) {
-    createLocation(name: $name, latitude: $latitude, longitude: $longitude, countryCode: $countryCode, timezone: $timezone, sunrise: $sunrise, sunset: $sunset, weatherData: $weatherData, userId: $userId) {
+    const graphQLMutation = `mutation ($name: String!, $latitude: Float!, $longitude: Float!, $countryCode: String, $timezone: Int, $sunrise: Int, $sunset: Int, $weatherData: [WeatherDataInput]) {
+    createLocation(name: $name, latitude: $latitude, longitude: $longitude, countryCode: $countryCode, timezone: $timezone, sunrise: $sunrise, sunset: $sunset, weatherData: $weatherData) {
             _id
             name
             latitude
@@ -87,16 +86,20 @@ async function responseDataForForecastModel(data) {
 }
 
 async function createNewLocationModel(mutationQuery, mutationVariables) {
-    await axios.post('http://localhost:3001/graphql', {
+    const response = await axios.post('http://localhost:3000/graphql', {
         query: mutationQuery,
         variables: mutationVariables,
     });
+    return response.data;
 };
 
-async function getCityDataCreateNewLocationModel(cityName, userId) {
+async function getCityDataCreateNewLocationModel(cityName) {
     let query = createQuery(cityName)
+    console.log('OpenWeather API Query:', query);
+    console.log('API Key:', process.env.OPEN_WEATHER_API_KEY ? 'Present' : 'MISSING');
     try {
         let { status, data } = await axios.get(query);
+        console.log('OpenWeather API Response Status:', status);
         if (status === 200) {
             const mutationData = await responseDataForLocationModel(data);
             const mutationForecastData = await responseDataForForecastModel(data);
@@ -104,17 +107,23 @@ async function getCityDataCreateNewLocationModel(cityName, userId) {
             const mutationQuery = mutationQueryForLocationModel();
             const response = await createNewLocationModel(mutationQuery, {
                 ...mutationData,
-                weatherData: mutationForecastData,
-                userId: userId
+                weatherData: mutationForecastData
 
             });
+            return response;
 
         } else {
             console.error("Please enter a valid city name");
+            return null;
         };
     } catch (error) {
-        // console.error(error.response)
-        console.error(error.response.data);
+        console.error('Error in getCityDataCreateNewLocationModel:');
+        console.error('Error message:', error.message);
+        if (error.response) {
+            console.error('Error response data:', error.response.data);
+            console.error('Error response status:', error.response.status);
+        }
+        throw error;
     };
 };
 

@@ -16,10 +16,16 @@ const resolvers = {
         }
     },
     Mutation: {
-        fetchCityData: async (parent, { cityName, userId = null }) => {
-            const cityData = await getCityDataCreateNewLocationModel(cityName, userId);
-
-            return cityData;
+        fetchCityData: async (parent, { cityName }) => {
+            try {
+                console.log('Fetching city data for:', cityName);
+                const cityData = await getCityDataCreateNewLocationModel(cityName);
+                console.log('City data received:', cityData);
+                return JSON.stringify(cityData);
+            } catch (error) {
+                console.error('Error in fetchCityData resolver:', error);
+                throw error;
+            }
         },
         createLocation: async (parent, args) => {
             const location = await Location.create(args);

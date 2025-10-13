@@ -123,8 +123,8 @@ const typeDefs =   `
     }
 
     type Mutation {
-        createLocation(name: String!, latitude: Float!, longitude: Float!, countryCode: String, timezone: Int, sunrise: Int, sunset: Int, weatherData: [WeatherDataInput], userId: ID ): Location
-        fetchCityData(cityName: String!, userId: String): String
+        createLocation(name: String!, latitude: Float!, longitude: Float!, countryCode: String, timezone: Int, sunrise: Int, sunset: Int, weatherData: [WeatherDataInput], userId: ID): Location
+        fetchCityData(cityName: String!): String
     }
 `
 

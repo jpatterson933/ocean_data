@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useMutation } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 import { FETCH_CITY_DATA } from "../../utils/mutations";
 
 
 function SearchLocationForm() {
     const [cityName, setCityName] = useState('');
-    const [fetchCityData, { error }] = useMutation(FETCH_CITY_DATA);
+    const [fetchCityData] = useMutation(FETCH_CITY_DATA);
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         try {
-
             event.preventDefault();
             const response = await fetchCityData({ variables: { cityName } });
+            
+            if (response.data && response.data.fetchCityData) {
+                const locationData = JSON.parse(response.data.fetchCityData);
+                const locationId = locationData.data.createLocation._id;
+                navigate(`/location/${locationId}`);
+            }
+            
             setCityName('');
         } catch (err) {
             console.error(err);
@@ -19,7 +27,7 @@ function SearchLocationForm() {
     };
 
     const handleInputChange = (event) => {
-        const { name, value } = event.target;
+        const { value } = event.target;
         setCityName(value)
     }
 
