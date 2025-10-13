@@ -112,39 +112,19 @@ const typeDefs =   `
         weatherData: [WeatherData]
     }
 
-    type Auth {
-        token: ID!
-        user: User
-    }
 
 
 
 
-
-
-
-    
     type Query {
         user(email: String!): User
-        me: User
         users: [User]
-        isUserVerified: Boolean!
-
         locations(_id: String): [Location]
     }
 
     type Mutation {
-        addUser(email: String!, password: String!): Auth
-        verifyEmail(token: String!, confirmationNumber: Int!): User
-
-        updateUser(email: String!, password: String!): User
-        deleteUser: User
-
-        loginUser(email: String!, password: String!): Auth
-
-
-        createLocation(name: String!, latitude: Float!, longitude: Float!, countryCode: String, timezone: Int, sunrise: Int, sunset: Int, weatherData: [WeatherDataInput], userId: ID! ): Location
-        fetchCityData(cityName: String!): String
+        createLocation(name: String!, latitude: Float!, longitude: Float!, countryCode: String, timezone: Int, sunrise: Int, sunset: Int, weatherData: [WeatherDataInput], userId: ID ): Location
+        fetchCityData(cityName: String!, userId: String): String
     }
 `
 
